@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.qunar.liwei.graduation.mafengwo">
+	<cache/>
+	<!--<insert id="save" parameterType="MicroBlog" flushCache="true">-->
+		<!--insert into sinaweibo_data-->
+		<!--values(null,#{nickName},#{type},#{microBlogContent},-->
+		<!--#{mediaBox},#{feedFrom},#{rePostContent},#{time},now())-->
+	<!--</insert>-->
+	<!---->
+	<!--<select id="isBlogExist" parameterType="MicroBlog" resultType="Integer">-->
+		<!--SELECT Count(id) FROM sinaweibo_data-->
+		<!--WHERE nickName=#{nickName} AND microBlogContent=#{microBlogContent} AND-->
+		<!--type=#{type} AND time=#{time}-->
+	<!--</select>-->
+
+    <select id="getUrls" parameterType="Int" resultType="String">
+        SELECT url FROM mfwurl WHERE cityId = #{id} AND NOT isFetch;
+    </select>
+
+    <select id="getAllId" resultType="Int">
+        SELECT distinct cityId FROM mfwurl
+    </select>
+
+    <insert id="saveTravel" parameterType="Travel">
+        INSERT INTO travels
+        VALUES(null,#{cityId},#{title},#{contentText},#{author},#{time},#{url})
+    </insert>
+
+    <select id="isTravelExist" parameterType="Travel" resultType="Int">
+        SELECT id FROM travels WHERE url = #{url}
+    </select>
+
+    <update id="changeUrlState" parameterType="Travel">
+        UPDATE mfwurl SET isFetch = true
+        WHERE url = #{url}
+    </update>
+
+
+</mapper>
